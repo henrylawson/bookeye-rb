@@ -1,4 +1,5 @@
 class BooksController < ApplicationController
+  
   def index
     @book = Book.new
     @books = Book.all
@@ -13,24 +14,24 @@ class BooksController < ApplicationController
   def create
     book = Book.new params[:book]
     if book.valid? and book.save
-      redirect_to books_path, :notice => "The book you created was saved."
+      redirect_to books_path, :notice => "The book you created was saved"
     else
-      prepareForRender book, "The book you created could not be saved, please ensure your fields are complete."
+      prepareForRender book, "Please ensure your fields are complete"
       render "index"
     end
   end
   
   def destroy
     Book.destroy params[:id]
-    redirect_to books_path, :notice => "The book has been deleted."
+    redirect_to books_path, :notice => "The book has been deleted"
   end
   
   def update
     book = Book.find params[:id]
     if book.update_attributes params[:book]
-      redirect_to books_path, :notice => "Your book was updated."
+      redirect_to books_path, :notice => "Your book was updated"
     else
-      prepareForRender book, "There was an error updating your book."
+      prepareForRender book, "There was an error updating your book"
       render "index"
     end
   end

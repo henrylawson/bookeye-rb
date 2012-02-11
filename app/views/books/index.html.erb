@@ -1,50 +1,78 @@
-<h1>Book Editor</h1>
-<div class="bookEditor">
-	<%= form_for @book do |f| %>
-		<div class="fromRow">
-			<%= f.label :title %>
-			<%= f.text_field :title %>
-		</div>
-		<div class="fromRow">
-			<%= f.label :author %>
-			<%= f.text_field :author %>
-		</div>	
-		<div class="fromRow">
-			<%= f.label :year %>
-			<%= f.text_field :year %>
-		</div>	
-		<div class="fromRow">
-			<%= f.label :hasRead, "Has the book been read?" %>
-			<%= f.check_box :hasRead %>
-		</div>	
-		<div class="fromRow">
-			<%= f.label :hasCopy, "Do you own the book?" %>
-			<%= f.check_box :hasCopy %>
-		</div>	
-		<div class="fromRow">
-			<%= f.label :hasEbook, "Do you own the eBook?" %>
-			<%= f.check_box :hasEbook %>
-		</div>
-		<div class="fromRow">
-			<%= f.submit 'Save Book' %>
-		</div>
-	</div>
-	<% end %>	
-</div>
-<% if @books.length > 0 %>
-	<h1>Books</h1>
-	<div class="bookListing">
-	<% for book in @books do %>
-		<div class="book">
-			<div class="title"><%= book.title %></div>
-			<div class="author"><%= book.author %></div>
-			<div class="year"><%= book.year %></div>
-			<div class="hasRead"><%= book.hasRead %></div>
-			<div class="hasCopy"><%= book.hasCopy %></div>
-			<div class="hasEbook"><%= book.hasEbook %></div>
-			<div class="edit"><%= link_to 'Edit', edit_book_path(book) %></div>
-			<div class="delete"><%= link_to 'Delete', book, :method => 'delete' %></div>
+<div class="editor">
+	<h1>Editor</h1>
+	<% flash.each do |name, message| %>
+		<div id="<%= name %>">
+			<%= message %>
 		</div>
 	<% end %>
+	<div class="bookEditor">
+		<%= form_for @book do |f| %>
+			<div class="formRow">
+				<%= f.label :title, "Title:" %>
+				<%= f.text_field :title %>
+			</div>
+			<div class="formRow">
+				<%= f.label :author, "Author:" %>
+				<%= f.text_field :author %>
+			</div>	
+			<div class="formRow">
+				<%= f.label :year, "Year:" %>
+				<%= f.text_field :year %>
+			</div>	
+			<div class="formRow">
+				<%= f.label :hasRead, "Has been read?" %>
+				<%= f.check_box :hasRead %>
+			</div>	
+			<div class="formRow">
+				<%= f.label :hasCopy, "Own the book?" %>
+				<%= f.check_box :hasCopy %>
+			</div>	
+			<div class="formRow">
+				<%= f.label :hasEbook, "Own the eBook?" %>
+				<%= f.check_box :hasEbook %>
+			</div>
+			<div class="formRowBtn">
+				<div class="linkBtn">
+					<%= f.submit 'Save Book' %>
+				</div>
+				<% if @book.id %>
+					<div class="linkBtn">
+						<%= link_to 'Delete', @book, :method => 'delete', :confirm => 'Are you sure?' %>
+					</div>
+				<% end %>
+				<div class="linkBtn">
+					<%= link_to 'Cancel', books_path %>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<% end %>	
 	</div>
-<% end %>
+</div>
+<div class="listing">
+	<h1>Books</h1>
+	<div class="bookListing">
+		<% if @books.length > 0 %>
+			<% for book in @books do %>
+				<div class="book <%= (book.id == @book.id) ? "selected" : "notSelected" %>">
+					<div class="title"><%= book.title %></div>
+					<div class="options">
+						<div class="editLnk <%= (book.id == @book.id) ? "hide" : "" %>">
+							<%= link_to 'Edit', edit_book_path(book) %>
+						</div>
+						<div class="cancelLnk <%= (book.id == @book.id) ? "" : "hide" %>">
+							<%= link_to 'Cancel', books_path %>
+						</div>
+					</div>
+					<div class="subline">by <%= book.author %>, published <%= book.year %>.</div>
+					<div class="hasRead is<%= book.hasRead %> attribute">read</div>
+					<div class="hasCopy is<%= book.hasCopy %> attribute">book</div>
+					<div class="hasEbook is<%= book.hasEbook %> attribute">eBook</div>
+					<div class="clear"></div>
+				</div>
+			<% end %>
+		<% else %>
+			No books to display
+		<% end %>
+	</div>
+</div>

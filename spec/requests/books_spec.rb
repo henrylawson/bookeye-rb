@@ -4,12 +4,12 @@ describe "Books" do
   describe "view home screen" do
     it "display book editor" do
       visit books_path
-      page.should have_content 'Book Editor'
+      page.should have_content 'Editor'
     end
     
     it "should not display books" do
       visit books_path
-      page.should_not have_content 'Books'
+      page.should have_content 'No books to display'
     end
   end
   
@@ -33,7 +33,7 @@ describe "Books" do
     end
   
     it "should add new book" do
-      page.should have_content "The book you created was saved."
+      page.should have_content "REST in Practice: Hypermedia and Systems Architecture"
       current_path.should == books_path
       page.should have_content @book.title
       page.should have_content @book.author
@@ -47,14 +47,15 @@ describe "Books" do
       click_button 'Save Book'
       current_path.should == books_path
       page.should have_content 'updated book title'
-      page.should have_content "Your book was updated."
+      page.should have_content "Your book was updated"
     end
     
     it "should delete added book" do
+      click_link 'Edit'
       page.should have_content @book.title
       click_link 'Delete'
       page.should_not have_content @book.title
-      page.should have_content "The book has been deleted."
+      page.should have_content "The book has been deleted"
     end
   end
   
@@ -72,7 +73,7 @@ describe "Books" do
       fill_in 'Author', :with => @author
       fill_in 'Year', :with => @year
       click_button 'Save Book'
-      page.should have_content "The book you created could not be saved, please ensure your fields are complete."
+      page.should have_content "Please ensure your fields are complete"
       find_field('Title').value.should == ""
       find_field('Author').value.should == @author
       find_field('Year').value.should == @year
@@ -84,7 +85,7 @@ describe "Books" do
       fill_in 'Author', :with => ""
       fill_in 'Year', :with => @year
       click_button 'Save Book'
-      page.should have_content "The book you created could not be saved, please ensure your fields are complete."
+      page.should have_content "Please ensure your fields are complete"
       find_field('Title').value.should == @title
       find_field('Author').value.should == ""
       find_field('Year').value.should == @year
@@ -96,7 +97,7 @@ describe "Books" do
       fill_in 'Author', :with => @author
       fill_in 'Year', :with => ""
       click_button 'Save Book'
-      page.should have_content "The book you created could not be saved, please ensure your fields are complete."
+      page.should have_content "Please ensure your fields are complete"
       find_field('Title').value.should == @title
       find_field('Author').value.should == @author
       find_field('Year').value.should == ""
@@ -108,7 +109,7 @@ describe "Books" do
       fill_in 'Author', :with => @author
       fill_in 'Year', :with => "sdf"
       click_button 'Save Book'
-      page.should have_content "The book you created could not be saved, please ensure your fields are complete."
+      page.should have_content "Please ensure your fields are complete"
       find_field('Title').value.should == @title
       find_field('Author').value.should == @author
       find_field('Year').value.should == "sdf"
@@ -132,25 +133,26 @@ describe "Books" do
     it "should not allow blank title" do
       fill_in 'Title', :with => ''
       click_button 'Save Book'
-      page.should have_content "There was an error updating your book."
+      page.should have_content "There was an error updating your book"
     end
     
     it "should not allow blank author" do
       fill_in 'Author', :with => ''
       click_button 'Save Book'
-      page.should have_content "There was an error updating your book."
+      page.should have_content "There was an error updating your book"
     end
     
     it "should not allow blank year" do
       fill_in 'Year', :with => ''
       click_button 'Save Book'
-      page.should have_content "There was an error updating your book."
+      page.should have_content "There was an error updating your book"
     end
     
     it "should not allow characters in year" do
       fill_in 'Year', :with => 'sdf'
       click_button 'Save Book'
-      page.should have_content "There was an error updating your book."
+      
+      page.should have_content "There was an error updating your book"
     end
   end
 end
