@@ -6,6 +6,14 @@
 		</div>
 	<% end %>
 	<div class="bookEditor">
+		<div class="formRow searchArea">
+			<%= label_tag :search, "Search:" %>
+			<%= text_field_tag 'Search', nil, :placeholder => 'Enter book details...', :class => 'searchField' %>
+			<div class="linkBtn pullBtn">
+				<%= link_to 'Pull', '#', :id => 'pullButton' %>
+			</div>
+			<div class="clear"></div>
+		</div>
 		<%= form_for @book do |f| %>
 			<div class="formRow">
 				<%= f.label :title, "Title:" %>

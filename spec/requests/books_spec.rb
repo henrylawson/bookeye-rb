@@ -60,7 +60,6 @@ describe "Books" do
   end
   
   describe "attempt invalid add operations" do
-    
     before(:each) do
       @title = "The best book ever"
       @author = "Henry Lawson"
@@ -117,7 +116,6 @@ describe "Books" do
   end
   
   describe "attempt invalid edit operations" do
-    
     before(:each) do
       @title = "The best book ever"
       @author = "Henry Lawson"
@@ -154,5 +152,25 @@ describe "Books" do
       
       page.should have_content "There was an error updating your book"
     end
+  end
+  
+  describe "given user wants to use search" do 
+    it "should be able to enter search" do
+      visit books_path
+      searchFieldName = 'Search'
+      searchTerm = 'My awesome book'
+      fill_in searchFieldName, :with => searchTerm
+      find_field(searchFieldName).value.should == searchTerm
+    end
+    
+    
+    #it "should have correct results" do
+      #visit books_path
+      #fill_in 'Search', :with => 'Agile Samruai'
+      #click_link 'Pull'
+      #find_field('Title').value.should == 'The Agile Samurai: How Agile Masters Deliver Great Software'
+      #find_field('Author').value.should == 'Jonathan Rasmusson'
+      #find_field('Year').value.should == '2010'
+    #end
   end
 end

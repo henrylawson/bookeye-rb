@@ -15,7 +15,7 @@ class BooksController < ApplicationController
       book = Book.new :title => googleBook.title, :author => googleBook.authors.join('; '), :year => googleBook.published_date[0, 4]
       render :inline => book.to_json
     else 
-      render :inline => ''
+      render :inline => '{}'
     end
   end
   
