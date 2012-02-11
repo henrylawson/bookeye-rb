@@ -1,6 +1,7 @@
 Bookeye::Application.routes.draw do
   root :to => 'Books#index'
   resources :books
+  match 'books/google_book_search/:search' => 'books#google_book_search'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
