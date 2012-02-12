@@ -3,11 +3,11 @@ require 'spec_helper'
 describe BooksController do
   let(:book) { mock_model(Book).as_null_object }
   
-  before do 
-    Book.stub(:new).and_return(book)
-  end
-  
   describe "GET index" do
+    before(:each) do 
+      Book.stub(:new).and_return(book)
+    end
+    
     it "should get all books" do
       Book.should_receive(:all).and_return([:book])
       get :index
@@ -25,87 +25,158 @@ describe BooksController do
   end
   
   describe "POST create" do
-    it "should get all books" do
-      Book.should_receive(:all).and_return([:book])
-      post :create
-    end
+    context "receives no book and" do
+      it "should get all books" do
+        Book.should_receive(:all).and_return([:book])
+        post :create
+      end
   
-    it "receives no book, should set flash ntoice and render index" do
-      post :create
-      flash[:notice].should eq(["Please ensure your fields are complete"])
-      response.should render_template("index")
-    end
-    
-    context "receives a book and" do
-      it "does not save with currect flash notice and redirect" do
-        book.stub(:valid?).and_return(false)
+      it "should set correct flash notice" do
         post :create
         flash[:notice].should eq(["Please ensure your fields are complete"])
-        response.should render_template("index")
       end
       
-      it "saves successfully and sets correct flash notice and redirect" do
-        book.stub(:valid?).and_return(true)
-        book.stub(:save).and_return(true)
+      it "should render correct template" do
         post :create
-        flash[:notice].should eq("The book you created was saved")
-        response.should redirect_to(:action => 'index')
+        response.should render_template("index")
+      end
+    end
+    
+    context "receives a book that" do
+      context "can not be saved" do
+        before(:each) do
+            book.stub(:valid?).and_return(false)
+            post :create
+        end
+        
+        it "should have correct flash notice" do
+          flash[:notice].should eq(["Please ensure your fields are complete"])
+        end
+        
+        it "should render correct template" do
+          response.should render_template("index")
+        end
+      end
+      
+      context "can be saved" do
+        before(:each) do
+          Book.stub(:new).and_return(book)
+          book.stub(:valid?).and_return(true)
+          book.stub(:save).and_return(true)
+          post :create
+        end
+        
+        it "should have correct flash notice" do
+          flash[:notice].should eq("The book you created was saved")
+        end
+        
+        it "should have correct redirect" do
+          response.should redirect_to(:action => 'index')
+        end
       end
     end
   end
   
   describe "POST edit" do
-    it "should get all books" do
-      Book.should_receive(:find).and_return(:book)
-      Book.should_receive(:all).and_return([:book])
-      post :edit
-    end
-  
-    it "receives correct id and returns a book" do
-      id = 99
-      Book.should_receive(:find).
-        with(id.to_s).
-        and_return(:book)
-      post :edit, :id => id
-      response.should render_template("index")
-    end
+    context "receives correct id" do
+      it "should get all books" do
+        Book.should_receive(:find_by_id).and_return(:book)
+        Book.should_receive(:all).and_return([:book])
+        post :edit
+      end
+
+      it "should render template" do
+        id = 99
+        Book.should_receive(:find_by_id).
+          with(id.to_s).
+          and_return(:book)
+        post :edit, :id => id
+        response.should render_template("index")
+      end
+     end
     
-    it "receives incorrect id and sets correct flash message and redirect"
+    context "receives incorrect id" do
+      before(:each) do 
+        post :edit, :id => 99
+      end
+      
+      it "should set correct flash ntoice" do
+        flash[:notice].should eq("Error, invalid parameter")
+      end
+      
+      it "should do correct redirect" do
+        response.should redirect_to(:action => 'index')
+      end
+    end
   end
   
   describe "DELETE destroy" do
-    it "receives correct id, destroys book and sets correct flash notice and redirect" do
-      Book.should_receive(:destroy)
-      delete :destroy, :id => 1
-      flash[:notice].should eq("The book has been deleted")
-      response.should redirect_to(:action => 'index')
+    context "receives correct it" do
+      before(:each) do
+        Book.should_receive(:destroy)
+        Book.should_receive(:find_by_id).and_return(:book)
+        delete :destroy, :id => 1
+      end
+      
+      it "should set correct flash message" do
+        flash[:notice].should eq("The book has been deleted")
+      end
+      
+      it "should do correct redirect" do
+        response.should redirect_to(:action => 'index')
+      end
     end
     
-    it "receives incorrect id and sets correct flash message"
+    context "receives incorrect it" do
+      before(:each) do
+        delete :destroy, :id => 1
+      end
+      
+      it "should set correct flash message" do
+        flash[:notice].should eq("Error, invalid parameter")
+      end
+      
+      it "should do correct redirect" do
+        response.should redirect_to(:action => 'index')
+      end
+    end
   end
   
   describe "PUT update" do
-    it "receives correct book" do 
-      book.stub(:update_attributes).and_return(true)
-      Book.should_receive(:find).and_return(book)
-      put :update, :id => 99
-      flash[:notice].should eq("Your book was updated")
-      response.should redirect_to(:action => 'index')
+    context "receives correct book" do
+      before(:each) do
+        book.stub(:update_attributes).and_return(true)
+        Book.should_receive(:find).and_return(book)
+        put :update, :id => 99
+      end
+      
+      it "should set correct flash message" do 
+        flash[:notice].should eq("Your book was updated")
+      end
+      
+      it "should do correct redirect" do
+        response.should redirect_to(:action => 'index')
+      end
     end
     
-    context "it receives invalid book" do
-      it "should get all books" do
+    context "receives invalid book" do
+      before(:each) do
         book.stub(:update_attributes).and_return(false)
         Book.should_receive(:find).and_return(book)
+      end
+      
+      it "should get all books" do
         Book.should_receive(:all).and_return([:book])
         put :update
       end
     
-      it "should set flash message and render" do
-        book.stub(:update_attributes).and_return(false)
-        Book.should_receive(:find).and_return(book)
+      it "should set flash message" do
         put :update
         flash[:notice].should eq(["There was an error updating your book"])
+      end
+      
+      it "should render correct template" do
+        put :update
         response.should render_template('index')
       end
     end

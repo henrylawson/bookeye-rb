@@ -20,9 +20,13 @@ class BooksController < ApplicationController
   end
   
   def edit
-    @book = Book.find params[:id]
-    @books = Book.all
-    render "index"
+    @book = Book.find_by_id params[:id]
+    if @book
+      @books = Book.all
+      render "index"
+    else
+      redirect_to books_path, :notice => "Error, invalid parameter"
+    end
   end
   
   def create
@@ -36,8 +40,13 @@ class BooksController < ApplicationController
   end
   
   def destroy
-    Book.destroy params[:id]
-    redirect_to books_path, :notice => "The book has been deleted"
+    book = Book.find_by_id params[:id]
+    if book
+      Book.destroy params[:id]
+      redirect_to books_path, :notice => "The book has been deleted"
+    else
+      redirect_to books_path, :notice => "Error, invalid parameter"
+    end
   end
   
   def update
