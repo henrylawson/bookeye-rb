@@ -1,8 +1,0 @@
-How does BDD fit in with TDD, are projects developed using a purely BDD approach?
-Who often takes on the role to turn cucumber features into steps and when doing BDD how do QA's and Dev's collaborate to get a feature implemented?
-How often are tools like Selenium used on projects?
-When doing BDD is there collaboration or pairing between dev's and qa's to work from the feature level down to the unit level?
-What do you feel are the evident advantages of BDD?
-Do you think the "behaviour" format of RSpec tests eventually will be adopted in testing for other languages?
-Do you prefer RSpec style tests over xUnit tests?
-How strict is mocking enforced in development, is a mochist approach common?

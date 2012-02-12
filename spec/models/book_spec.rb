@@ -11,6 +11,25 @@ describe Book do
       :hasEbook => false)
   end
   
+  it "is valid with valid atrributes" do
+    @book.should be_valid
+  end
+  
+  it "is not valid without title" do 
+    @book.title = nil
+    @book.should_not be_valid
+  end
+  
+  it "is not valid without author" do
+    @book.author = nil
+    @book.should_not be_valid
+  end
+  
+  it "is not valid without year" do
+    @book.year = nil
+    @book.should_not be_valid
+  end
+  
   it "has correct title" do
     @book.title.should == "REST in Practice: Hypermedia and Systems Architecture"
   end
