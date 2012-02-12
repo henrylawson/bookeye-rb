@@ -43,6 +43,7 @@ function displayBook(book) {
 
 function queryServiceForBookData(ajaxJsonEngine, button, searchTextField) {
 	var searchTerm = searchTextField.val();
+	if (searchTerm == '') return;
 	var searchEncoded = encodeURIComponent(searchTerm);
 	var requestUrl = JSON_GOOGLE_API_URL + searchEncoded;
 	setElementsToLoading(button)
