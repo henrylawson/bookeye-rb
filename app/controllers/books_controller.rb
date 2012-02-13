@@ -12,7 +12,10 @@ class BooksController < ApplicationController
     googleBooks = GoogleBooks::API.search params[:search]
     if googleBooks.total_results > 0
       googleBook = googleBooks.first
-      book = Book.new :title => googleBook.title, :author => googleBook.authors.join('; '), :year => googleBook.published_date[0, 4]
+      book = Book.new(:title => googleBook.title, 
+        :author => googleBook.authors.join('; '), 
+        :year => googleBook.published_date[0, 4],
+        :cover => googleBook.covers[:small])
       render :inline => book.to_json
     else 
       render :inline => '{}'

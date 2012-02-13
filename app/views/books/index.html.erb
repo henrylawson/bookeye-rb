@@ -28,6 +28,10 @@
 				<%= f.text_field :year %>
 			</div>	
 			<div class="formRow">
+				<%= f.label :cover, "Cover:" %>
+				<%= f.text_field :cover %>
+			</div>	
+			<div class="formRow">
 				<%= f.label :hasRead, "Has been read?" %>
 				<%= f.check_box :hasRead %>
 			</div>	
@@ -63,6 +67,9 @@
 		<% if @books.length > 0 %>
 			<% for book in @books do %>
 				<div class="book <%= (book.id == @book.id) ? "selected" : "notSelected" %>">
+					<div class="cover">
+						<img src="<%= book.cover %>" border="0" class="bookCover">
+					</div>
 					<div class="title"><%= book.title %></div>
 					<div class="options">
 						<div class="editLnk <%= (book.id == @book.id) ? "hide" : "" %>">

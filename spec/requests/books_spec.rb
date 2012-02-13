@@ -19,6 +19,7 @@ describe "Books" do
         :title => "REST in Practice: Hypermedia and Systems Architecture",
         :author => "Savas Parastatidis", 
         :year => "2010", 
+        :cover => "http://google.com/bookcover.jpg",
         :hasRead => false, 
         :hasCopy => false, 
         :hasEbook => false)
@@ -29,6 +30,7 @@ describe "Books" do
       fill_in 'Title', :with => @book.title
       fill_in 'Author', :with => @book.author
       fill_in 'Year', :with => @book.year
+      fill_in 'Cover', :with => @book.cover
       click_button 'Save Book'
     end
   
@@ -64,6 +66,7 @@ describe "Books" do
       @title = "The best book ever"
       @author = "Henry Lawson"
       @year = "2007"
+      @cover = "book.jpg"
     end
     
     it "should not allow blank title" do
@@ -71,11 +74,13 @@ describe "Books" do
       fill_in 'Title', :with => ""
       fill_in 'Author', :with => @author
       fill_in 'Year', :with => @year
+      fill_in 'Cover', :with => @cover
       click_button 'Save Book'
       page.should have_content "Please ensure your fields are complete"
       find_field('Title').value.should == ""
       find_field('Author').value.should == @author
       find_field('Year').value.should == @year
+      find_field('Cover').value.should == @cover
     end
     
     it "should not allow blank author" do
@@ -83,11 +88,13 @@ describe "Books" do
       fill_in 'Title', :with => @title
       fill_in 'Author', :with => ""
       fill_in 'Year', :with => @year
+      fill_in 'Cover', :with => @cover
       click_button 'Save Book'
       page.should have_content "Please ensure your fields are complete"
       find_field('Title').value.should == @title
       find_field('Author').value.should == ""
       find_field('Year').value.should == @year
+      find_field('Cover').value.should == @cover
     end
     
     it "should not allow blank year" do
@@ -95,11 +102,13 @@ describe "Books" do
       fill_in 'Title', :with => @title
       fill_in 'Author', :with => @author
       fill_in 'Year', :with => ""
+      fill_in 'Cover', :with => @cover
       click_button 'Save Book'
       page.should have_content "Please ensure your fields are complete"
       find_field('Title').value.should == @title
       find_field('Author').value.should == @author
       find_field('Year').value.should == ""
+      find_field('Cover').value.should == @cover
     end
     
     it "should not allow characters in year" do
@@ -107,11 +116,27 @@ describe "Books" do
       fill_in 'Title', :with => @title
       fill_in 'Author', :with => @author
       fill_in 'Year', :with => "sdf"
+      fill_in 'Cover', :with => @cover
       click_button 'Save Book'
       page.should have_content "Please ensure your fields are complete"
       find_field('Title').value.should == @title
       find_field('Author').value.should == @author
       find_field('Year').value.should == "sdf"
+      find_field('Cover').value.should == @cover
+    end
+    
+    it "should not allow balnk cover" do
+      visit books_path
+      fill_in 'Title', :with => @title
+      fill_in 'Author', :with => @author
+      fill_in 'Year', :with => @year
+      fill_in 'Cover', :with => ""
+      click_button 'Save Book'
+      page.should have_content "Please ensure your fields are complete"
+      find_field('Title').value.should == @title
+      find_field('Author').value.should == @author
+      find_field('Year').value.should == @year
+      find_field('Cover').value.should == ""
     end
   end
   
@@ -120,10 +145,12 @@ describe "Books" do
       @title = "The best book ever"
       @author = "Henry Lawson"
       @year = "2007"
+      @cover = "book.jpg"
       visit books_path
       fill_in 'Title', :with => @title
       fill_in 'Author', :with => @author
       fill_in 'Year', :with => @year
+      fill_in 'Cover', :with => @cover
       click_button 'Save Book'
       click_link 'Edit'
     end

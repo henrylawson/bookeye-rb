@@ -7,6 +7,7 @@ var JSON_GOOGLE_API_URL = '/books/google_book_search/';
 var BOOK_EDITOR_TITLE_FIELD_ID = '#book_title';
 var BOOK_EDITOR_AUTHOR_FIELD_ID = '#book_author';
 var BOOK_EDITOR_YEAR_FIELD_ID = '#book_year';
+var BOOK_EDITOR_COVER_FIELD_ID = '#book_cover';
 
 start($.getJSON);
 
@@ -39,6 +40,7 @@ function displayBook(book) {
 	$(BOOK_EDITOR_TITLE_FIELD_ID).val(book.title);
 	$(BOOK_EDITOR_AUTHOR_FIELD_ID).val(book.author);
 	$(BOOK_EDITOR_YEAR_FIELD_ID).val(book.year);
+	$(BOOK_EDITOR_COVER_FIELD_ID).val(book.cover);
 }
 
 function queryServiceForBookData(ajaxJsonEngine, button, searchTextField) {
