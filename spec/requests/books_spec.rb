@@ -41,6 +41,7 @@ describe "Books" do
         page.should have_content @book.title
         page.should have_content @book.author
         page.should have_content @book.year
+        page.should have_xpath("//img[@src=\"#{@book.cover}\"]") 
       end
 
       it "should be able to edit added book" do
