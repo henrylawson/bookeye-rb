@@ -66,10 +66,10 @@
 		<%= link_to 'All', :controller => "books", :action => "index", :filter => :all  %> |
 		<%= link_to 'Wish List', :controller => "books", :action => "index", :filter => :wish_list  %> |
 		<%= link_to 'To Read', :controller => "books", :action => "index", :filter => :to_read  %> |
-		<%= link_to 'Own', :controller => "books", :action => "index", :filter => :own  %> |
+		<%= link_to 'Owned', :controller => "books", :action => "index", :filter => :owned  %> |
 		<%= link_to 'Read', :controller => "books", :action => "index", :filter => :read  %>
 	</div>
-	<h1>Books</h1>
+	<h1><%= ActiveSupport::Inflector.titleize(ActiveSupport::Inflector.humanize(params[:filter])) %> Books</h1>
 	<div class="bookListing">
 		<% if @books.length > 0 %>
 			<% for book in @books do %>

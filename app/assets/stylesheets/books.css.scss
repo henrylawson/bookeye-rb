@@ -23,7 +23,7 @@ div.editor {
 	border-right:4px solid #fff;
 	padding:15px;
 	padding-top:10px;
-	position:absolute;
+	position:fixed;
 	top:0;
 	left:0;
 	bottom:0;
@@ -177,7 +177,8 @@ img.bookCover {
 }
 
 div.filterSelection {
-	position:absolute;
+	z-index:1;
+	position:fixed;
 	top:0;
 	right:0;
 	padding:15px;

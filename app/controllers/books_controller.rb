@@ -3,6 +3,9 @@ require 'google_books'
 class BooksController < ApplicationController
   
   def index
+    if params[:filter] == nil
+      params[:filter] = 'all'
+    end
     @book = Book.new
     @books = Book.find_using_filter params[:filter]
     render 'index'
