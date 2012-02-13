@@ -22,6 +22,34 @@ describe BooksController do
       Book.should_receive(:new).and_return(:book)
       get :index
     end
+    
+    it "should get wish list books" do
+      Book.should_receive(:find_using_filter).
+        with('wish_list').
+        and_return([:book])
+      get :index, :filter => :wish_list
+    end
+    
+    it "should get to read books" do
+      Book.should_receive(:find_using_filter).
+        with('to_read').
+        and_return([:book])
+      get :index, :filter => :to_read
+    end
+    
+    it "should get own books" do
+      Book.should_receive(:find_using_filter).
+        with('own').
+        and_return([:book])
+      get :index, :filter => :own
+    end
+    
+    it "should get read books" do
+      Book.should_receive(:find_using_filter).
+        with('read').
+        and_return([:book])
+      get :index, :filter => :read
+    end
   end
   
   describe "POST create" do
@@ -33,7 +61,7 @@ describe BooksController do
   
       it "should set correct flash notice" do
         post :create
-        flash[:notice].should eq(["Please ensure your fields are complete"])
+        flash[:notice].should eq("Please ensure your fields are complete")
       end
       
       it "should render correct template" do
@@ -50,7 +78,7 @@ describe BooksController do
         end
         
         it "should have correct flash notice" do
-          flash[:notice].should eq(["Please ensure your fields are complete"])
+          flash[:notice].should eq("Please ensure your fields are complete")
         end
         
         it "should render correct template" do
@@ -172,7 +200,7 @@ describe BooksController do
     
       it "should set flash message" do
         put :update
-        flash[:notice].should eq(["There was an error updating your book"])
+        flash[:notice].should eq("There was an error updating your book")
       end
       
       it "should render correct template" do

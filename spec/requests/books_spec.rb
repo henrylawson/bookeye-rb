@@ -25,13 +25,17 @@ describe "Books" do
         :hasEbook => false)
     end
     
+    def fillInBookData 
+      fill_in 'Title', :with => @book.title
+      fill_in 'Author', :with => @book.author
+      fill_in 'Year', :with => @book.year
+      fill_in 'Cover', :with => @book.cover
+    end
+    
     context "and does an add with valid data" do
       before(:each) do
         visit books_path
-        fill_in 'Title', :with => @book.title
-        fill_in 'Author', :with => @book.author
-        fill_in 'Year', :with => @book.year
-        fill_in 'Cover', :with => @book.cover
+        fillInBookData
         click_button 'Save Book'
       end
   
@@ -66,10 +70,7 @@ describe "Books" do
     context "and does an add with invalid data" do
       before(:each) do
         visit books_path
-        fill_in 'Title', :with => @book.title
-        fill_in 'Author', :with => @book.author
-        fill_in 'Year', :with => @book.year
-        fill_in 'Cover', :with => @book.cover
+        fillInBookData
       end
 
       it "should not allow blank title" do
@@ -106,10 +107,7 @@ describe "Books" do
     context "and does an edit with invalid data" do
        before(:each) do
          visit books_path
-         fill_in 'Title', :with => @book.title
-         fill_in 'Author', :with => @book.author
-         fill_in 'Year', :with => @book.year
-         fill_in 'Cover', :with => @book.cover
+         fillInBookData
          click_button 'Save Book'
          click_link 'Edit'
        end
@@ -147,6 +145,69 @@ describe "Books" do
          fill_in searchFieldName, :with => searchTerm
          find_field(searchFieldName).value.should == searchTerm
        end
+     end
+     
+     context "with multiple books added" do
+       before(:each) do
+          visit books_path
+          fillInBookData
+          fill_in 'Title', :with => 'have ebook'
+          check 'book_hasEbook'
+          click_button 'Save Book'
+          fillInBookData
+          fill_in 'Title', :with => 'have copy'
+          check 'book_hasCopy'
+          click_button 'Save Book'
+          fillInBookData
+          fill_in 'Title', :with => 'have read'
+          check 'book_hasRead'
+          click_button 'Save Book'
+        end
+        
+        def shouldHaveAllTheBooks 
+          page.should have_content 'have ebook'
+          page.should have_content 'have copy'
+          page.should have_content 'have read'
+        end
+        
+        context "user makes filter selection" do
+          it "should have all the books by default" do
+            shouldHaveAllTheBooks
+          end
+          
+          it "should have all the books" do
+            click_link 'All'
+            shouldHaveAllTheBooks
+          end
+          
+          it "should have read books" do
+            click_link 'Read'
+            page.should_not have_content 'have ebook'
+            page.should_not have_content 'have copy'
+            page.should have_content 'have read'
+          end
+          
+          it "should have own books" do
+            click_link 'Own'
+            page.should have_content 'have ebook'
+            page.should have_content 'have copy'
+            page.should_not have_content 'have read'
+          end
+          
+          it "should have wish list books" do
+            click_link 'Wish List'
+            page.should_not have_content 'have ebook'
+            page.should_not have_content 'have copy'
+            page.should have_content 'have read'
+          end
+          
+          it "should have own books" do
+            click_link 'To Read'
+            page.should have_content 'have ebook'
+            page.should have_content 'have copy'
+            page.should_not have_content 'have read'
+          end
+        end
      end
   end
 end

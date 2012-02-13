@@ -62,6 +62,13 @@
 	</div>
 </div>
 <div class="listing">
+	<div class="filterSelection">
+		<%= link_to 'All', :controller => "books", :action => "index", :filter => :all  %> |
+		<%= link_to 'Wish List', :controller => "books", :action => "index", :filter => :wish_list  %> |
+		<%= link_to 'To Read', :controller => "books", :action => "index", :filter => :to_read  %> |
+		<%= link_to 'Own', :controller => "books", :action => "index", :filter => :own  %> |
+		<%= link_to 'Read', :controller => "books", :action => "index", :filter => :read  %>
+	</div>
 	<h1>Books</h1>
 	<div class="bookListing">
 		<% if @books.length > 0 %>

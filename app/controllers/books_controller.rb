@@ -4,7 +4,7 @@ class BooksController < ApplicationController
   
   def index
     @book = Book.new
-    @books = Book.all
+    @books = Book.find_using_filter params[:filter]
     render 'index'
   end
   
@@ -65,7 +65,6 @@ class BooksController < ApplicationController
   def prepareForRender book, notice
     @book = book
     @books = Book.all
-    flash[:notice] ||= []
-    flash[:notice] << notice
+    flash[:notice] = notice
   end
 end
