@@ -31,6 +31,9 @@ group :test, :development do
 	gem 'ruby_gntp'
 	gem 'minitest'
 	gem 'launchy'
+	gem 'jasmine'
+	gem 'jasmine-headless-webkit'
+	gem 'guard-jasmine-headless-webkit'
 end
 
 # To use ActiveModel has_secure_password

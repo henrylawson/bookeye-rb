@@ -209,4 +209,20 @@ describe BooksController do
       end
     end
   end
+  
+  describe "POST google_book_search" do
+    context "when it receives a search known by GoogleBooksAPI" do
+      it "should return JSON for book" do
+        post :google_book_search, :search => 'Test Driven Development'
+        response.body.should == '{"hasEbook":null,"created_at":null,"title":"Test-driven development: By Example","author":"Kent Beck","updated_at":null,"cover":"http://bks5.books.google.co.in/books?id=gFgnde_vwMAC&printsec=frontcover&img=1&zoom=1&source=gbs_api","id":null,"hasRead":null,"hasCopy":null,"year":"2003"}'
+      end
+    end
+    
+    context "when it receives a search not known by GoogleBooksAPI" do
+      it "should return JSON for book" do
+        post :google_book_search, :search => '@#$!@#$#@!$!@#$@!#$#@!$!@#$'
+        response.body.should == '{}'
+      end
+    end
+  end
 end

@@ -41,6 +41,10 @@ GEM
       xpath (~> 0.1.4)
     childprocess (0.3.1)
       ffi (~> 1.0.6)
+    coffee-script (2.2.0)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.2.0)
     diff-lcs (1.1.3)
     erubis (2.7.0)
     execjs (1.3.0)
@@ -52,6 +56,9 @@ GEM
     guard (1.0.0)
       ffi (>= 0.5.0)
       thor (~> 0.14.6)
+    guard-jasmine-headless-webkit (0.3.2)
+      guard (>= 0.4.0)
+      jasmine-headless-webkit (>= 0.7.0)
     guard-rspec (0.6.0)
       guard (>= 0.10.0)
     hashie (1.1.0)
@@ -60,6 +67,18 @@ GEM
       multi_json
       multi_xml
     i18n (0.6.0)
+    jasmine (1.1.2)
+      jasmine-core (>= 1.1.0)
+      rack (>= 1.1)
+      rspec (>= 1.3.1)
+      selenium-webdriver (>= 0.1.3)
+    jasmine-core (1.1.0)
+    jasmine-headless-webkit (0.8.4)
+      coffee-script
+      jasmine-core (~> 1.1)
+      multi_json
+      rainbow
+      sprockets (~> 2)
     journey (1.0.1)
     jquery-rails (2.0.0)
       railties (>= 3.2.0.beta, < 5.0)
@@ -99,6 +118,7 @@ GEM
       rake (>= 0.8.7)
       rdoc (~> 3.4)
       thor (~> 0.14.6)
+    rainbow (1.1.3)
     rake (0.9.2.2)
     rdoc (3.12)
       json (~> 1.4)
@@ -152,7 +172,10 @@ PLATFORMS
 DEPENDENCIES
   capybara
   google_books
+  guard-jasmine-headless-webkit
   guard-rspec
+  jasmine
+  jasmine-headless-webkit
   jquery-rails
   json
   launchy
