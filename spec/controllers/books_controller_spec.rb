@@ -39,9 +39,9 @@ describe BooksController do
     
     it "should get own books" do
       Book.should_receive(:find_using_filter).
-        with('owned').
+        with('my').
         and_return([:book])
-      get :index, :filter => :owned
+      get :index, :filter => :my
     end
     
     it "should get read books" do

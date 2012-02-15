@@ -188,7 +188,7 @@ describe "Books" do
           end
           
           it "should have own books" do
-            click_link 'Owned'
+            click_link 'Mine'
             page.should have_content 'have ebook'
             page.should have_content 'have copy'
             page.should_not have_content 'have read'

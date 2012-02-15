@@ -9,7 +9,7 @@ class Book < ActiveRecord::Base
       return self.where("hasebook = ? AND hascopy = ?", false, false)
     elsif paramFilter == :to_read.to_s
       return self.where("hasread = ? AND (hasebook = ? OR hascopy = ?)", false, true, true)
-    elsif paramFilter == :owned.to_s
+    elsif paramFilter == :my.to_s
       return self.where("hasebook = ? OR hascopy = ?", true, true)
     elsif paramFilter == :read.to_s
       return self.where("hasread = ?", true)

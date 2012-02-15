@@ -1,0 +1,47 @@
+<div class="formRow searchArea">
+	<label for="search">Search:</label>
+	<input class="searchField" id="Search" name="Search" placeholder="Enter book details..." type="text" />
+	<div class="linkBtn pullBtn">
+		<a href="#" id="pullButton">Pull</a>
+	</div>
+	<div class="clear"></div>
+</div>
+<form>
+	<div class="formRow">
+		<label for="book_title">Title:</label>
+		<input id="book_title" name="book[title]" size="30" type="text" />
+	</div>
+	<div class="formRow">
+		<label for="book_author">Author:</label>
+		<input id="book_author" name="book[author]" size="30" type="text" />
+	</div>	
+	<div class="formRow">
+		<label for="book_year">Year:</label>
+		<input id="book_year" name="book[year]" size="30" type="text" />
+	</div>	
+	<div class="formRow">
+		<label for="book_cover">Cover:</label>
+		<input id="book_cover" name="book[cover]" size="30" type="text" />
+	</div>	
+	<div class="formRow">
+		<label for="book_hasRead">Has been read?</label>
+		<input name="book[hasRead]" type="hidden" value="0" /><input id="book_hasRead" name="book[hasRead]" type="checkbox" value="1" />
+	</div>	
+	<div class="formRow">
+		<label for="book_hasCopy">Own the book?</label>
+		<input name="book[hasCopy]" type="hidden" value="0" /><input id="book_hasCopy" name="book[hasCopy]" type="checkbox" value="1" />
+	</div>	
+	<div class="formRow">
+		<label for="book_hasEbook">Own the eBook?</label>
+		<input name="book[hasEbook]" type="hidden" value="0" /><input id="book_hasEbook" name="book[hasEbook]" type="checkbox" value="1" />
+	</div>
+	<div class="formRowBtn">
+		<div class="linkBtn">
+			<input name="commit" type="submit" value="Save Book" />
+		</div>
+		<div class="linkBtn">
+			<a href="/books">Cancel</a>
+		</div>
+		<div class="clear"></div>
+	</div>
+</form>
