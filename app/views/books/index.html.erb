@@ -73,8 +73,7 @@
 	<div class="bookListing">
 		<% if @books.length > 0 %>
 			<% for book in @books do %>
-				<a name="<%= ActiveSupport::Inflector.parameterize(book.title) %>"></a>
-				<div class="book <%= (book.id == @book.id) ? "selected" : "notSelected" %>">
+				<div class="book <%= (book.id == @book.id) ? "selected" : "notSelected" %>" id="<%= ActiveSupport::Inflector.parameterize(book.title) %>">
 					<div class="cover">
 						<img src="<%= book.cover %>" border="0" class="bookCover">
 					</div>

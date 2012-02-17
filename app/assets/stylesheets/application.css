@@ -16,6 +16,10 @@ body {
 	margin:0;
 	background:#EBDDE2;
 	padding:15px;
+	background: -webkit-gradient(radial, center center, 0, center center, 460, from(#f9f9f9), to(#ccc));
+	background: -webkit-radial-gradient(circle, #f9f9f9, #ccc);
+	background: -moz-radial-gradient(circle, #f9f9f9, #ccc);
+ 	background: -ms-radial-gradient(circle, #f9f9f9, #ccc);
 }
 
 a {
