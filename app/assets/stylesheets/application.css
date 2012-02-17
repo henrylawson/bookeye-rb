@@ -14,12 +14,13 @@
 body {
 	padding:0;
 	margin:0;
-	background:#EBDDE2;
+	background:#fff;
 	padding:15px;
-	background: -webkit-gradient(radial, center center, 0, center center, 460, from(#f9f9f9), to(#ccc));
+	/*background: -webkit-gradient(radial, center center, 0, center center, 460, from(#f9f9f9), to(#ccc));
 	background: -webkit-radial-gradient(circle, #f9f9f9, #ccc);
 	background: -moz-radial-gradient(circle, #f9f9f9, #ccc);
- 	background: -ms-radial-gradient(circle, #f9f9f9, #ccc);
+ 	background: -ms-radial-gradient(circle, #f9f9f9, #ccc);*/
+	color:#222028;
 }
 
 a {
@@ -28,8 +29,8 @@ a {
 
 h1 {
 	text-shadow: 1px 0px 1px #888;
-	color:#666;
-	border-bottom:3px solid #888;
+	color:#222028;
+	border-bottom:3px solid #222028;
 }
 
 body, input {
