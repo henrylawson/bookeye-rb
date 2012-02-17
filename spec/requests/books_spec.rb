@@ -13,7 +13,7 @@ describe "Books" do
     end
   end
   
-  context "when a user accessess index" do
+  context "when a user accessess index, " do
     before(:all) do
       @book = Book.new(
         :title => "REST in Practice: Hypermedia and Systems Architecture",
@@ -32,7 +32,7 @@ describe "Books" do
       fill_in 'Cover', :with => @book.cover
     end
     
-    context "and does an add with valid data" do
+    context "and does an add with valid data, " do
       before(:each) do
         visit books_path
         fillInBookData
@@ -67,7 +67,7 @@ describe "Books" do
       end
     end
     
-    context "and does an add with invalid data" do
+    context "and does an add with invalid data, " do
       before(:each) do
         visit books_path
         fillInBookData
@@ -104,7 +104,7 @@ describe "Books" do
       end
     end
     
-    context "and does an edit with invalid data" do
+    context "and does an edit with invalid data, " do
        before(:each) do
          visit books_path
          fillInBookData
@@ -147,27 +147,32 @@ describe "Books" do
        end
      end
      
-     context "with multiple books added" do
+     context "with multiple books added, " do
+       
        before(:each) do
+          @haveEbookTitle = 'have ebook'
+          @haveCopyTitle = 'have copy'
+          @hasReadTitle = 'have read'
+          
           visit books_path
           fillInBookData
-          fill_in 'Title', :with => 'have ebook'
+          fill_in 'Title', :with => @haveEbookTitle
           check 'book_hasEbook'
           click_button 'Save Book'
           fillInBookData
-          fill_in 'Title', :with => 'have copy'
+          fill_in 'Title', :with => @haveCopyTitle
           check 'book_hasCopy'
           click_button 'Save Book'
           fillInBookData
-          fill_in 'Title', :with => 'have read'
+          fill_in 'Title', :with => @hasReadTitle
           check 'book_hasRead'
           click_button 'Save Book'
         end
         
         def shouldHaveAllTheBooks 
-          page.should have_content 'have ebook'
-          page.should have_content 'have copy'
-          page.should have_content 'have read'
+          page.should have_content @haveEbookTitle
+          page.should have_content @haveCopyTitle
+          page.should have_content @hasReadTitle
         end
         
         context "user makes filter selection" do
@@ -182,30 +187,48 @@ describe "Books" do
           
           it "should have read books" do
             click_link 'Read'
-            page.should_not have_content 'have ebook'
-            page.should_not have_content 'have copy'
-            page.should have_content 'have read'
+            page.should_not have_content @haveEbookTitle
+            page.should_not have_content @haveCopyTitle
+            page.should have_content @hasReadTitle
           end
           
           it "should have own books" do
             click_link 'Mine'
-            page.should have_content 'have ebook'
-            page.should have_content 'have copy'
-            page.should_not have_content 'have read'
+            page.should have_content @haveEbookTitle
+            page.should have_content @haveCopyTitle
+            page.should_not have_content @hasReadTitle
           end
           
           it "should have wish list books" do
             click_link 'Wish List'
-            page.should_not have_content 'have ebook'
-            page.should_not have_content 'have copy'
-            page.should have_content 'have read'
+            page.should_not have_content @haveEbookTitle
+            page.should_not have_content @haveCopyTitle
+            page.should have_content @hasReadTitle
           end
           
-          it "should have own books" do
+          it "should have to read books" do
             click_link 'To Read'
-            page.should have_content 'have ebook'
-            page.should have_content 'have copy'
-            page.should_not have_content 'have read'
+            page.should have_content @haveEbookTitle
+            page.should have_content @haveCopyTitle
+            page.should_not have_content @hasReadTitle
+          end
+          
+          context "and then selects operations" do
+            it "should persist with the filter selection on edit selection" do
+              click_link 'To Read'
+              page.should have_content 'To Read Books'
+              click_link 'Edit'
+              page.should have_content 'To Read Books'
+            end
+            
+            it "should persist with the filter selection on edit, then cancel selection" do
+                click_link 'To Read'
+                page.should have_content 'To Read Books'
+                click_link 'Edit'
+                page.should have_content 'To Read Books'
+                click_link 'Cancel'
+                page.should have_content 'To Read Books'
+              end
           end
         end
      end

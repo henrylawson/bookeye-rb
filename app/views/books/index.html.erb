@@ -53,7 +53,7 @@
 					</div>
 				<% end %>
 				<div class="linkBtn">
-					<%= link_to 'Cancel', books_path %>
+					<%= link_to 'Cancel', books_path(:filter => params[:filter]) %>
 				</div>
 				<div class="clear"></div>
 			</div>
@@ -73,6 +73,7 @@
 	<div class="bookListing">
 		<% if @books.length > 0 %>
 			<% for book in @books do %>
+				<a name="<%= ActiveSupport::Inflector.parameterize(book.title) %>"></a>
 				<div class="book <%= (book.id == @book.id) ? "selected" : "notSelected" %>">
 					<div class="cover">
 						<img src="<%= book.cover %>" border="0" class="bookCover">
@@ -80,10 +81,12 @@
 					<div class="title"><%= book.title %></div>
 					<div class="options">
 						<div class="editLnk <%= (book.id == @book.id) ? "hide" : "" %>">
-							<%= link_to 'Edit', edit_book_path(book) %>
+							<%= link_to 'Edit', edit_book_path(book, 
+								:filter => params[:filter], 
+								:anchor => ActiveSupport::Inflector.parameterize(book.title)) %>
 						</div>
 						<div class="cancelLnk <%= (book.id == @book.id) ? "" : "hide" %>">
-							<%= link_to 'Cancel', books_path %>
+							<%= link_to 'Cancel', books_path(:filter => params[:filter]) %>
 						</div>
 					</div>
 					<div class="subline">by <%= book.author %>, published <%= book.year %>.</div>

@@ -1,3 +1,4 @@
+#require File.expand_path('../../coverage/simplecov_helper', __FILE__)
 require 'test/unit'
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'

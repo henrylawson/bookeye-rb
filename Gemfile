@@ -34,6 +34,8 @@ group :test, :development do
 	gem 'jasmine'
 	gem 'jasmine-headless-webkit'
 	gem 'guard-jasmine-headless-webkit'
+  #gem "rails-erd"
+  #gem "simplecov"
 end
 
 # To use ActiveModel has_secure_password

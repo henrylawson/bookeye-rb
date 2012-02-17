@@ -1,13 +1,9 @@
 require 'google_books'
 
 class BooksController < ApplicationController
+  before_filter :prepare
   
   def index
-    if params[:filter] == nil
-      params[:filter] = 'all'
-    end
-    @book = Book.new
-    @books = Book.find_using_filter params[:filter]
     render 'index'
   end
   
@@ -19,16 +15,15 @@ class BooksController < ApplicationController
         :author => googleBook.authors.join('; '), 
         :year => googleBook.published_date[0, 4],
         :cover => googleBook.covers[:small])
-      render :inline => book.to_json
     else 
-      render :inline => '{}'
-    end
+      book = Object.new
+    end  
+    render :json => book
   end
   
   def edit
     @book = Book.find_by_id params[:id]
     if @book
-      @books = Book.all
       render "index"
     else
       redirect_to books_path, :notice => "Error, invalid parameter"
@@ -36,12 +31,11 @@ class BooksController < ApplicationController
   end
   
   def create
-    book = Book.new params[:book]
-    if book.valid? and book.save
+    newBook = Book.new params[:book]
+    if newBook.valid? and newBook.save
       redirect_to books_path, :notice => "The book you created was saved"
     else
-      prepareForRender book, "Please ensure your fields are complete"
-      render "index"
+      set_book_and_flash_and_render_index newBook, "Please ensure your fields are complete"
     end
   end
   
@@ -56,18 +50,26 @@ class BooksController < ApplicationController
   end
   
   def update
-    book = Book.find params[:id]
-    if book.update_attributes params[:book]
+    updateBook = Book.find params[:id]
+    if updateBook.update_attributes params[:book]
       redirect_to books_path, :notice => "Your book was updated"
     else
-      prepareForRender book, "There was an error updating your book"
-      render "index"
+      set_book_and_flash_and_render_index updateBook, "There was an error updating your book"
     end
   end
   
-  def prepareForRender book, notice
-    @book = book
-    @books = Book.all
-    flash[:notice] = notice
-  end
+  protected
+    def prepare
+      @book = Book.new
+      if params[:filter] == nil
+        params[:filter] = 'all'
+      end
+      @books = Book.find_using_filter params[:filter]
+    end
+    
+    def set_book_and_flash_and_render_index book, flashNotice
+      @book = book
+      flash[:notice] = flashNotice
+      render "index"
+    end
 end
