@@ -217,16 +217,16 @@ describe "Books" do
             it "should persist with the filter selection on edit selection" do
               click_link 'To Read'
               page.should have_content 'To Read Books'
-              click_link 'Edit'
+              first(:link, 'Edit').click
               page.should have_content 'To Read Books'
             end
             
             it "should persist with the filter selection on edit, then cancel selection" do
                 click_link 'To Read'
                 page.should have_content 'To Read Books'
-                click_link 'Edit'
+                first(:link, 'Edit').click
                 page.should have_content 'To Read Books'
-                click_link 'Cancel'
+                first(:link, 'Cancel').click
                 page.should have_content 'To Read Books'
               end
           end

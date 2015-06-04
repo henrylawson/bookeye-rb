@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe BooksController do
+describe BooksController, type: :controller do
   let(:book) { mock_model(Book).as_null_object }
   
   describe "GET index" do
@@ -110,7 +110,7 @@ describe BooksController do
       it "should get all books" do
         Book.should_receive(:find_by_id).and_return(:book)
         Book.should_receive(:all).and_return([:book])
-        post :edit
+        post :edit, id: 9
       end
 
       it "should render template" do
@@ -195,16 +195,16 @@ describe BooksController do
       
       it "should get all books" do
         Book.should_receive(:all).and_return([:book])
-        put :update
+        put :update, id: 9
       end
     
       it "should set flash message" do
-        put :update
+        put :update, id: 9
         flash[:notice].should eq("There was an error updating your book")
       end
       
       it "should render correct template" do
-        put :update
+        put :update, id: 9
         response.should render_template('index')
       end
     end
@@ -214,7 +214,11 @@ describe BooksController do
     context "when it receives a search known by GoogleBooksAPI" do
       it "should return JSON for book" do
         post :google_book_search, :search => 'Test Driven Development'
-        response.body.should == '{"hasEbook":null,"created_at":null,"title":"Test-driven development: By Example","author":"Kent Beck","updated_at":null,"cover":"http://bks5.books.google.co.in/books?id=gFgnde_vwMAC&printsec=frontcover&img=1&zoom=1&source=gbs_api","id":null,"hasRead":null,"hasCopy":null,"year":"2003"}'
+
+        result = JSON.parse(response.body)
+
+        expect(result).to have_key("title")
+        expect(result).to have_key("author")
       end
     end
     
