@@ -2,25 +2,25 @@ require 'google_books'
 
 class BooksController < ApplicationController
   before_filter :prepare
-  
+
   def index
     render 'index'
   end
-  
+
   def google_book_search
     googleBooks = GoogleBooks::API.search params[:search]
     if googleBooks.total_results > 0
       googleBook = googleBooks.first
-      book = Book.new(:title => googleBook.title, 
-        :author => googleBook.authors.join('; '), 
+      book = Book.new(:title => googleBook.title,
+        :author => googleBook.authors.join('; '),
         :year => googleBook.published_date[0, 4],
         :cover => googleBook.covers[:small])
-    else 
+    else
       book = Object.new
-    end  
+    end
     render :json => book
   end
-  
+
   def edit
     @book = Book.find_by_id params[:id]
     if @book
@@ -29,7 +29,7 @@ class BooksController < ApplicationController
       redirect_to books_path, :notice => "Error, invalid parameter"
     end
   end
-  
+
   def create
     newBook = Book.new params[:book]
     if newBook.valid? and newBook.save
@@ -38,7 +38,7 @@ class BooksController < ApplicationController
       set_book_and_flash_and_render_index newBook, "Please ensure your fields are complete"
     end
   end
-  
+
   def destroy
     book = Book.find_by_id params[:id]
     if book
@@ -48,7 +48,7 @@ class BooksController < ApplicationController
       redirect_to books_path, :notice => "Error, invalid parameter"
     end
   end
-  
+
   def update
     updateBook = Book.find params[:id]
     if updateBook.update_attributes params[:book]
@@ -57,7 +57,7 @@ class BooksController < ApplicationController
       set_book_and_flash_and_render_index updateBook, "There was an error updating your book"
     end
   end
-  
+
   protected
     def prepare
       @book = Book.new
@@ -66,7 +66,7 @@ class BooksController < ApplicationController
       end
       @books = Book.find_using_filter params[:filter]
     end
-    
+
     def set_book_and_flash_and_render_index book, flashNotice
       @book = book
       flash[:notice] = flashNotice

@@ -1,1 +1,0 @@
-{"should have author set after call":[23],"GoogleBookSearch wih MockAjax":[1],"should have cover set after call":[31],"should have year set after call":[27],"should have title set after call":[19]}
